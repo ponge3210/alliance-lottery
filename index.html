@@ -7,149 +7,212 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0f0f13; --surface: #1a1a23; --surface2: #22222e;
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.15);
-    --accent: #7c6ff7; --accent2: #a89eff;
-    --green: #34d399; --red: #f87171; --yellow: #facc15;
-    --text: #e8e8f0; --text2: #9898b0; --text3: #5a5a70;
-    --radius: 10px; --radius-lg: 16px;
+    --bg: #0f0f13;
+    --surface: #1a1a23;
+    --surface2: #22222e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --accent: #7c6ff7;
+    --accent2: #a89eff;
+    --green: #34d399;
+    --red: #f87171;
+    --text: #e8e8f0;
+    --text2: #9898b0;
+    --text3: #5a5a70;
+    --radius: 10px;
+    --radius-lg: 16px;
   }
-  body { background:var(--bg); color:var(--text); font-family:'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif; font-size:14px; line-height:1.5; min-height:100vh; padding:20px 16px 40px; }
-  h1 { text-align:center; font-size:22px; font-weight:600; letter-spacing:0.05em; color:var(--accent2); margin-bottom:6px; }
-  code { background:rgba(255,255,255,0.08); padding:1px 5px; border-radius:4px; font-size:12px; }
-
-  .status-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; padding:8px 0 16px; font-size:12px; color:var(--text3); border-bottom:1px solid var(--border); margin-bottom:18px; }
-  .status-dot { width:7px; height:7px; border-radius:50%; background:var(--text3); flex-shrink:0; transition:background 0.3s; }
-  .status-dot.ok { background:var(--green); }
-  .status-dot.err { background:var(--red); }
-  .status-dot.loading { background:var(--yellow); animation:blink 0.8s infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  #ghBanner { max-width:1100px; margin:0 auto 16px; background:rgba(124,111,247,0.07); border:1px solid rgba(124,111,247,0.25); border-radius:var(--radius-lg); padding:16px; }
-  #ghBanner .bTitle { font-size:13px; font-weight:600; color:var(--accent2); margin-bottom:10px; }
-  #ghBanner .bDesc { font-size:12px; color:var(--text2); margin-bottom:14px; line-height:1.9; }
-  #ghBanner .bDesc .tag-admin { color:var(--green); font-weight:600; }
-  #ghBanner .bDesc .tag-all   { color:var(--accent2); font-weight:600; }
-  .gh-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
-  @media(max-width:560px){ .gh-grid { grid-template-columns:1fr; } }
-  .gh-field label { display:block; font-size:11px; color:var(--text3); margin-bottom:4px; }
-  .gh-field input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:7px 12px; font-size:13px; color:var(--text); outline:none; transition:border-color 0.2s; font-family:monospace; }
-  .gh-field input:focus { border-color:var(--accent); }
-  .gh-field input::placeholder { color:var(--text3); }
-  .full-col { grid-column: 1 / -1; }
-  .bRow { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  .bToggle { font-size:12px; color:var(--text3); cursor:pointer; text-decoration:underline; }
-
-  #saveBar { display:none; max-width:1100px; margin:0 auto 14px; background:rgba(250,204,21,0.07); border:1px solid rgba(250,204,21,0.25); border-radius:var(--radius-lg); padding:10px 16px; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-  #saveBar span { font-size:13px; color:var(--yellow); flex:1; }
-
-  .top-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:1100px; margin:0 auto 16px; }
-  @media(max-width:640px){ .top-row { grid-template-columns:1fr; } }
-  .panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px; }
-  .panel-title { font-size:12px; font-weight:600; color:var(--accent2); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
-  .input-row { display:flex; gap:8px; margin-bottom:10px; }
-  input[type=text] { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:7px 12px; font-size:14px; color:var(--text); outline:none; transition:border-color 0.2s; }
-  input[type=text]:focus { border-color:var(--accent); }
-  input[type=text]::placeholder { color:var(--text3); }
-
-  .btn { padding:7px 14px; font-size:13px; font-weight:500; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface2); color:var(--text); cursor:pointer; transition:background 0.15s,border-color 0.15s; white-space:nowrap; }
-  .btn:hover { background:#2e2e3e; border-color:var(--accent); }
-  .btn:disabled { opacity:0.4; cursor:default; }
-  .btn-primary { background:var(--accent); color:#fff; border-color:var(--accent); }
-  .btn-primary:hover { background:#6a5ee6; }
-  .btn-save { background:var(--green); color:#0f1f17; border-color:var(--green); }
-  .btn-save:hover:not(:disabled) { background:#22c87e; }
-  .btn-danger { background:transparent; color:var(--red); border-color:rgba(248,113,113,0.3); padding:3px 8px; font-size:12px; }
-  .btn-danger:hover { background:rgba(248,113,113,0.1); }
-  .btn-success { background:var(--green); color:#0f1f17; border-color:var(--green); }
-  .btn-success:hover { background:#22c87e; }
-  .btn-ghost { background:transparent; border-color:var(--border); color:var(--accent2); }
-  .btn-ghost:hover { background:rgba(124,111,247,0.08); }
-
-  .member-list { display:flex; flex-direction:column; gap:4px; max-height:220px; overflow-y:auto; }
-  .member-item { display:flex; align-items:center; justify-content:space-between; padding:6px 10px; background:var(--surface2); border-radius:var(--radius); border:1px solid transparent; cursor:grab; transition:border-color 0.15s; }
-  .member-item:hover { border-color:var(--border2); }
-  .member-item.dragging { opacity:0.35; }
-  .rank-list { display:flex; flex-direction:column; gap:3px; max-height:460px; overflow-y:auto; }
-  .rank-slot { display:flex; align-items:center; gap:8px; padding:5px 10px; border:1px dashed var(--border); border-radius:var(--radius); min-height:33px; transition:border-color 0.15s,background 0.15s; }
-  .rank-slot.drag-over { border-color:var(--accent); background:rgba(124,111,247,0.08); }
-  .rank-slot.filled { border-style:solid; border-color:var(--border2); background:var(--surface2); }
-  .rank-num { font-size:11px; font-weight:600; color:var(--text3); min-width:20px; text-align:right; }
-  .rank-name { flex:1; color:var(--text); font-size:13px; }
-  .rank-btns { display:flex; gap:3px; }
-  .rank-btns button { padding:1px 7px; font-size:12px; border:1px solid var(--border); border-radius:5px; background:transparent; color:var(--text2); cursor:pointer; line-height:1.5; transition:background 0.12s; }
-  .rank-btns button:hover { background:var(--surface); }
-  .rank-btns button:disabled { opacity:0.2; cursor:default; }
-  .rank-btns .rm-btn { color:var(--red); border-color:rgba(248,113,113,0.25); }
-  .rank-btns .rm-btn:hover { background:rgba(248,113,113,0.1); }
-  .empty-hint { font-size:12px; color:var(--text3); text-align:center; padding:14px 0; }
-
-  .wheel-area { max-width:1100px; margin:0 auto; }
-  .wheel-inner { display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start; justify-content:center; }
-  .wheel-col { display:flex; flex-direction:column; align-items:center; gap:12px; }
-  #wheel { border-radius:50%; display:block; }
-  .wheel-btns { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
-  .wheel-status { font-size:12px; color:var(--text3); text-align:center; min-height:18px; }
-  .result-col { flex:1; min-width:180px; max-width:340px; }
-  .result-label { font-size:12px; font-weight:600; color:var(--accent2); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:8px; }
-  .spin-result { background:var(--surface2); border-radius:var(--radius); padding:8px; max-height:280px; overflow-y:auto; border:1px solid var(--border); }
-  .result-item { padding:5px 4px; font-size:13px; color:var(--text); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px; }
-  .result-item:last-child { border-bottom:none; }
-  .result-num { font-size:11px; color:var(--text3); min-width:28px; }
-  .result-name { font-weight:600; color:var(--green); }
-  ::-webkit-scrollbar { width:4px; }
-  ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 20px 16px 40px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--accent2);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto 16px;
+  }
+  @media(max-width:640px){ .top-row { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  input[type=text] {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 7px 12px;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type=text]:focus { border-color: var(--accent); }
+  input[type=text]::placeholder { color: var(--text3); }
+  .btn {
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: var(--radius);
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { background: #2e2e3e; border-color: var(--accent); }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #6a5ee6; border-color: #6a5ee6; }
+  .btn-danger { background: transparent; color: var(--red); border-color: rgba(248,113,113,0.3); padding: 3px 8px; font-size: 12px; }
+  .btn-danger:hover { background: rgba(248,113,113,0.1); }
+  .btn-add { background: transparent; color: var(--accent2); border-color: rgba(168,158,255,0.3); padding: 3px 8px; font-size: 12px; }
+  .btn-add:hover { background: rgba(124,111,247,0.12); }
+  .btn-success { background: var(--green); color: #0f1f17; border-color: var(--green); }
+  .btn-success:hover { background: #22c87e; }
+  .btn-reset { border-color: var(--border2); }
+  .member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .member-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    cursor: grab;
+    transition: border-color 0.15s;
+  }
+  .member-item:hover { border-color: var(--border2); }
+  .member-item.dragging { opacity: 0.35; }
+  .rank-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 460px;
+    overflow-y: auto;
+  }
+  .rank-slot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    min-height: 33px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .rank-slot.drag-over { border-color: var(--accent); background: rgba(124,111,247,0.08); }
+  .rank-slot.filled { border-style: solid; border-color: var(--border2); background: var(--surface2); }
+  .rank-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    min-width: 20px;
+    text-align: right;
+  }
+  .rank-name { flex: 1; color: var(--text); font-size: 13px; }
+  .rank-btns { display: flex; gap: 3px; }
+  .rank-btns button {
+    padding: 1px 7px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    line-height: 1.5;
+    transition: background 0.12s;
+  }
+  .rank-btns button:hover { background: var(--surface); }
+  .rank-btns button:disabled { opacity: 0.2; cursor: default; }
+  .rank-btns .rm-btn { color: var(--red); border-color: rgba(248,113,113,0.25); }
+  .rank-btns .rm-btn:hover { background: rgba(248,113,113,0.1); }
+  .empty-hint { font-size: 12px; color: var(--text3); text-align: center; padding: 14px 0; }
+  .wheel-area {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .wheel-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .wheel-col { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  #wheel { border-radius: 50%; display: block; }
+  .wheel-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .wheel-status { font-size: 12px; color: var(--text3); text-align: center; min-height: 18px; }
+  .result-col { flex: 1; min-width: 180px; max-width: 340px; }
+  .result-label { font-size: 12px; font-weight: 600; color: var(--accent2); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+  .spin-result {
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+  }
+  .result-item {
+    padding: 5px 4px;
+    font-size: 13px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .result-item:last-child { border-bottom: none; }
+  .result-num { font-size: 11px; color: var(--text3); min-width: 28px; }
+  .result-name { font-weight: 600; color: var(--green); }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
 </style>
 </head>
 <body>
-
-<h1>⚔️ 同盟抽籤系統</h1>
-<div class="status-bar">
-  <div class="status-dot loading" id="statusDot"></div>
-  <span id="statusMsg">初始化中...</span>
-</div>
-
-<div id="ghBanner">
-  <div class="bTitle">GitHub 設定（一次設定，永久生效）</div>
-  <div class="bDesc">
-    <span class="tag-all">所有人都需填寫</span>：帳號、Repo 名稱、唯讀 Token（讓 API 讀取不受快取限制）。<br>
-    <span class="tag-admin">管理員另外填寫</span>：管理員 Token（有 <code>repo</code> 權限）才能按「儲存同盟設定」。<br>
-    兩種 Token 產生方式：GitHub → Settings → Developer settings → Personal access tokens → <strong>Tokens (classic)</strong>。<br>
-    唯讀 Token 不需勾選任何權限；管理員 Token 勾選 <code>repo</code>。Token 只存在你自己的瀏覽器，不會外洩。
-  </div>
-  <div class="gh-grid">
-    <div class="gh-field">
-      <label>GitHub 帳號（owner）</label>
-      <input id="ghOwner" type="text" placeholder="your-username" />
-    </div>
-    <div class="gh-field">
-      <label>Repo 名稱</label>
-      <input id="ghRepo" type="text" placeholder="alliance-lottery" />
-    </div>
-    <div class="gh-field">
-      <label>config.json 路徑（放根目錄不用改）</label>
-      <input id="ghPath" type="text" placeholder="config.json" />
-    </div>
-    <div class="gh-field">
-      <label><span class="tag-all">唯讀 Token</span>（所有人填，不需勾任何權限）</label>
-      <input id="ghReadToken" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
-    </div>
-    <div class="gh-field full-col">
-      <label><span class="tag-admin">管理員 Token</span>（選填，填了才能儲存設定，需勾 repo 權限）</label>
-      <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
-    </div>
-  </div>
-  <div class="bRow">
-    <button class="btn btn-ghost" onclick="saveGhSettings()">儲存 GitHub 設定</button>
-    <span class="bToggle" onclick="toggleBanner()">收合</span>
-  </div>
-</div>
-
-<div id="saveBar">
-  <span id="saveBarMsg">有未儲存的變更</span>
-  <button class="btn btn-save" id="saveBtn" onclick="saveConfig()">儲存同盟設定</button>
-</div>
+<h1>⚔️ 同盟火車抽抽樂 🚄</h1>
 
 <div class="top-row">
   <div class="panel">
@@ -170,11 +233,12 @@
   <div class="panel-title">抽籤輪盤</div>
   <div class="wheel-inner">
     <div class="wheel-col">
-      <canvas id="wheel" width="280" height="280"></canvas>
-      <div class="wheel-btns">
-        <button class="btn" onclick="resetWheel()">重新設定輪盤</button>
-        <button class="btn btn-success" onclick="spin()">開始抽籤</button>
+      <button class="btn btn-reset" onclick="resetWheel()">新的抽籤</button>
+      <div style="position:relative;display:inline-block">
+        <canvas id="wheel" width="280" height="280"></canvas>
+        <div id="wheelArrow" style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:20px solid #f87171;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))"></div>
       </div>
+      <button class="btn btn-success" onclick="spin()">開始抽籤</button>
       <div id="wheelStatus" class="wheel-status"></div>
     </div>
     <div class="result-col">
@@ -185,223 +249,245 @@
 </div>
 
 <script>
-let GH = { owner:'', repo:'', path:'config.json', readToken:'', token:'' };
-let configSha = '';
-let members = [], ranking = new Array(20).fill(null);
-let wheelPeople = [], spinResults = [], spinning = false;
-let dragSource = null, dragType = null, wheelOffset = 0, isDirty = false;
+let members = [];
+let ranking = new Array(20).fill(null);
+let wheelPeople = [];   // 全部輪盤成員（不移除）
+let drawnSet = new Set(); // 已抽到的人
+let spinResults = [];
+let spinning = false;
+let dragSource = null;
+let dragType = null;
+let wheelOffset = 0;
 
 const COLORS = ['#7c6ff7','#34d399','#f97316','#ec4899','#38bdf8','#a3e635','#facc15','#fb7185','#818cf8','#2dd4bf','#c084fc','#fb923c','#4ade80','#60a5fa','#e879f9','#fbbf24','#f472b6','#34d399','#a78bfa','#94a3b8'];
 
-// ── GitHub 設定 ──
-function loadGhSettings() {
+function save() {
+  try { localStorage.setItem('allianceLottery', JSON.stringify({ members, ranking })); } catch(e) {}
+}
+function load() {
   try {
-    const s = JSON.parse(localStorage.getItem('gh_settings') || '{}');
-    GH.owner     = s.owner     || '';
-    GH.repo      = s.repo      || '';
-    GH.path      = s.path      || 'config.json';
-    GH.readToken = s.readToken || '';
-    GH.token     = s.token     || '';
-    document.getElementById('ghOwner').value     = GH.owner;
-    document.getElementById('ghRepo').value      = GH.repo;
-    document.getElementById('ghPath').value      = GH.path;
-    document.getElementById('ghReadToken').value = GH.readToken;
-    document.getElementById('ghToken').value     = GH.token;
-    if (GH.owner && GH.repo) toggleBanner(true);
+    const d = localStorage.getItem('allianceLottery');
+    if (d) { const p = JSON.parse(d); members = p.members || []; ranking = p.ranking || new Array(20).fill(null); }
   } catch(e) {}
 }
-function saveGhSettings() {
-  GH.owner     = document.getElementById('ghOwner').value.trim();
-  GH.repo      = document.getElementById('ghRepo').value.trim();
-  GH.path      = document.getElementById('ghPath').value.trim() || 'config.json';
-  GH.readToken = document.getElementById('ghReadToken').value.trim();
-  GH.token     = document.getElementById('ghToken').value.trim();
-  localStorage.setItem('gh_settings', JSON.stringify(GH));
-  toggleBanner(true);
-  loadConfig();
-}
-function toggleBanner(forceHide) {
-  const el = document.getElementById('ghBanner');
-  const grid = el.querySelector('.gh-grid');
-  const desc = el.querySelector('.bDesc');
-  const row  = el.querySelector('.bRow');
-  const title = el.querySelector('.bTitle');
-  if (forceHide === true) {
-    grid.style.display = 'none'; desc.style.display = 'none'; row.style.display = 'none';
-    title.textContent = 'GitHub 設定（點此展開修改）';
-    title.style.cursor = 'pointer';
-    title.onclick = () => toggleBanner(false);
-  } else if (forceHide === false) {
-    grid.style.display = ''; desc.style.display = ''; row.style.display = '';
-    title.textContent = 'GitHub 設定（一次設定，永久生效）';
-    title.style.cursor = 'default'; title.onclick = null;
-  } else {
-    toggleBanner(grid.style.display === 'none' ? false : true);
-  }
-}
 
-// ── 狀態列 ──
-function setStatus(state, msg) {
-  document.getElementById('statusDot').className = 'status-dot ' + state;
-  document.getElementById('statusMsg').textContent = msg;
-}
-function markDirty() {
-  isDirty = true;
-  document.getElementById('saveBar').style.display = 'flex';
-  const hasToken = !!GH.token;
-  document.getElementById('saveBtn').disabled = !hasToken;
-  document.getElementById('saveBarMsg').textContent = hasToken
-    ? '有未儲存的變更'
-    : '有未儲存的變更（需要管理員 Token 才能儲存）';
-}
-function markClean() {
-  isDirty = false;
-  document.getElementById('saveBar').style.display = 'none';
-}
-
-// ── 讀取 config.json（GitHub API，確保拿到最新版）──
-async function loadConfig() {
-  if (!GH.owner || !GH.repo) { setStatus('err', '請先填寫 GitHub 設定'); return; }
-  setStatus('loading', '從 GitHub 載入設定中...');
-  try {
-    const apiUrl = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
-    // 優先用 readToken，沒有才用 adminToken，都沒有才匿名（容易被快取）
-    const token = GH.readToken || GH.token;
-    const headers = {
-      'Accept': 'application/vnd.github.v3+json',
-      'Cache-Control': 'no-cache',
-      'Pragma': 'no-cache'
-    };
-    if (token) headers['Authorization'] = 'token ' + token;
-
-    const res = await fetch(apiUrl, { headers, cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 404 ? '（找不到檔案）' : res.status === 401 ? '（Token 無效）' : ''));
-    const json = await res.json();
-    configSha = json.sha;
-    const content = JSON.parse(atob(json.content.replace(/\n/g, '')));
-    members = content.members || [];
-    ranking = content.ranking || new Array(20).fill(null);
-    while (ranking.length < 20) ranking.push(null);
-    setStatus('ok', '已載入最新設定 · ' + new Date().toLocaleTimeString('zh-TW'));
-    markClean();
-  } catch(e) {
-    setStatus('err', '載入失敗：' + e.message);
-  }
-  renderMembers(); renderRanking(); drawWheel(0);
-}
-
-// ── 儲存 config.json（寫回 GitHub）──
-async function saveConfig() {
-  if (!GH.token) { alert('需要管理員 Token，請展開 GitHub 設定填寫。'); return; }
-  const btn = document.getElementById('saveBtn');
-  btn.disabled = true; btn.textContent = '儲存中...';
-  setStatus('loading', '正在寫入 GitHub...');
-  try {
-    const payload = JSON.stringify({ members, ranking }, null, 2);
-    const encoded = btoa(unescape(encodeURIComponent(payload)));
-    const res = await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`, {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + GH.token, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
-      body: JSON.stringify({ message: '更新同盟設定 ' + new Date().toLocaleString('zh-TW'), content: encoded, sha: configSha })
-    });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'HTTP ' + res.status); }
-    const result = await res.json();
-    configSha = result.content.sha;
-    setStatus('ok', '已儲存至 GitHub · ' + new Date().toLocaleTimeString('zh-TW'));
-    markClean();
-  } catch(e) {
-    setStatus('err', '儲存失敗：' + e.message);
-    btn.disabled = false;
-  }
-  btn.textContent = '儲存同盟設定'; btn.disabled = false;
-}
-
-// ── 成員清單 ──
 function addMember() {
-  const inp = document.getElementById('memberInput'), name = inp.value.trim();
+  const inp = document.getElementById('memberInput');
+  const name = inp.value.trim();
   if (!name) return;
   if (members.includes(name)) { alert('成員已存在！'); return; }
-  members.push(name); inp.value = ''; renderMembers(); markDirty();
+  members.push(name);
+  inp.value = '';
+  save(); renderMembers();
 }
 function removeMember(name) {
   members = members.filter(m => m !== name);
   ranking = ranking.map(r => r === name ? null : r);
-  renderMembers(); renderRanking(); markDirty();
+  save(); renderMembers(); renderRanking();
 }
+
+function addToRanking(name) {
+  if (ranking.includes(name)) { alert(`「${name}」已在排名清單中！`); return; }
+  const emptyIdx = ranking.indexOf(null);
+  if (emptyIdx === -1) { alert('排名清單已達 20 人上限，無法再加入！'); return; }
+  ranking[emptyIdx] = name;
+  save(); renderRanking();
+}
+
 function renderMembers() {
   const el = document.getElementById('memberList');
   if (!members.length) { el.innerHTML = '<div class="empty-hint">尚未新增成員</div>'; return; }
   el.innerHTML = members.map(m => `
     <div class="member-item" draggable="true" data-name="${m}"
-      ondragstart="onMemberDragStart(event,'${m}')" ondragend="onDragEnd(event)">
-      <span>${m}</span>
+      ondragstart="onMemberDragStart(event,'${m}')"
+      ondragend="onDragEnd(event)">
+      <span style="flex:1">${m}</span>
+      <button class="btn btn-add" onclick="addToRanking('${m}')">加入排名</button>
       <button class="btn btn-danger" onclick="removeMember('${m}')">移除</button>
     </div>`).join('');
 }
 
-// ── 排名清單 ──
 function renderRanking() {
   const el = document.getElementById('rankList');
-  el.innerHTML = ranking.map((name, i) => `
-    <div class="rank-slot${name?' filled':''}" data-index="${i}"
-      ondragover="onRankDragOver(event,${i})" ondragleave="onRankDragLeave(event)" ondrop="onRankDrop(event,${i})">
-      <span class="rank-num">${i+1}</span>
+  el.innerHTML = ranking.map((name, i) => {
+    const filled = name ? 'filled' : '';
+    return `<div class="rank-slot ${filled}" data-index="${i}"
+      ondragover="onRankDragOver(event,${i})"
+      ondragleave="onRankDragLeave(event)"
+      ondrop="onRankDrop(event,${i})">
+      <span class="rank-num">${i + 1}</span>
       ${name
         ? `<span class="rank-name">${name}</span>
            <div class="rank-btns">
-             <button ${i>0?'':'disabled'} onclick="moveRank(${i},-1)">▲</button>
-             <button ${i<19?'':'disabled'} onclick="moveRank(${i},1)">▼</button>
+             <button ${i > 0 ? '' : 'disabled'} onclick="moveRank(${i},-1)">▲</button>
+             <button ${i < 19 ? '' : 'disabled'} onclick="moveRank(${i},1)">▼</button>
              <button class="rm-btn" onclick="removeRank(${i})">✕</button>
            </div>`
         : `<span style="font-size:11px;color:var(--text3)">拖曳成員至此</span>`}
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
+
 function moveRank(i, dir) {
-  const j = i+dir; if(j<0||j>19) return;
-  [ranking[i],ranking[j]]=[ranking[j],ranking[i]]; renderRanking(); markDirty();
+  const j = i + dir;
+  if (j < 0 || j > 19) return;
+  [ranking[i], ranking[j]] = [ranking[j], ranking[i]];
+  save(); renderRanking();
 }
-function removeRank(i) { ranking[i]=null; renderRanking(); markDirty(); }
+function removeRank(i) { ranking[i] = null; save(); renderRanking(); }
 
-// ── 拖曳 ──
-function onMemberDragStart(e,name){dragSource=name;dragType='member';e.dataTransfer.effectAllowed='copy';e.target.classList.add('dragging');}
-function onDragEnd(e){e.target.classList.remove('dragging');}
-function onRankDragOver(e,i){e.preventDefault();document.querySelectorAll('.rank-slot').forEach(s=>s.classList.remove('drag-over'));document.querySelector(`.rank-slot[data-index="${i}"]`)?.classList.add('drag-over');}
-function onRankDragLeave(e){e.currentTarget.classList.remove('drag-over');}
-function onRankDrop(e,i){
-  e.preventDefault();document.querySelectorAll('.rank-slot').forEach(s=>s.classList.remove('drag-over'));
-  if(dragType==='member'&&dragSource){if(ranking.includes(dragSource)){alert('此成員已在排名中！');return;}ranking[i]=dragSource;renderRanking();markDirty();}
-  else if(dragType==='rank'){const f=parseInt(dragSource);if(f===i)return;[ranking[f],ranking[i]]=[ranking[i],ranking[f]];renderRanking();markDirty();}
+function onMemberDragStart(e, name) {
+  dragSource = name; dragType = 'member';
+  e.dataTransfer.effectAllowed = 'copy';
+  e.target.classList.add('dragging');
 }
-document.getElementById('rankList').addEventListener('dragstart',e=>{const s=e.target.closest('.rank-slot.filled');if(s){dragSource=s.dataset.index;dragType='rank';}});
-
-// ── 輪盤 ──
-const canvas=document.getElementById('wheel'),ctx=canvas.getContext('2d');
-function drawWheel(offset){
-  offset=offset||0;ctx.clearRect(0,0,280,280);const cx=140,cy=140,r=130;
-  if(!wheelPeople.length){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#1a1a23';ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#5a5a70';ctx.font='14px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('輪盤未設定',cx,cy);return;}
-  const n=wheelPeople.length,arc=(Math.PI*2)/n;
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(offset);ctx.translate(-cx,-cy);
-  wheelPeople.forEach((p,i)=>{const s=i*arc-Math.PI/2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,s+arc);ctx.closePath();ctx.fillStyle=COLORS[i%COLORS.length];ctx.fill();ctx.strokeStyle='#0f0f13';ctx.lineWidth=1.5;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(s+arc/2);ctx.textAlign='right';ctx.fillStyle='rgba(0,0,0,0.85)';const fs=n>14?9:n>9?11:13;ctx.font=`600 ${fs}px sans-serif`;let label=p;if(ctx.measureText(label).width>85)label=label.slice(0,n>12?4:6)+'…';ctx.fillText(label,r-8,0);ctx.restore();});
-  ctx.restore();ctx.beginPath();ctx.arc(cx,cy,16,0,Math.PI*2);ctx.fillStyle='#0f0f13';ctx.fill();ctx.strokeStyle='#444';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#f87171';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('▶',148,140);
+function onDragEnd(e) { e.target.classList.remove('dragging'); }
+function onRankDragOver(e, i) {
+  e.preventDefault();
+  document.querySelectorAll('.rank-slot').forEach(s => s.classList.remove('drag-over'));
+  const slot = document.querySelector(`.rank-slot[data-index="${i}"]`);
+  if (slot) slot.classList.add('drag-over');
 }
-function resetWheel(){wheelPeople=ranking.filter(n=>n!==null);spinResults=[];wheelOffset=0;document.getElementById('spinResult').innerHTML='<div class="empty-hint">尚無抽籤結果</div>';document.getElementById('wheelStatus').textContent=wheelPeople.length?`輪盤已設定 ${wheelPeople.length} 人`:'排名清單無成員';drawWheel(0);}
-function spin(){
-  if(spinning)return;if(!wheelPeople.length){alert('請先重新設定輪盤！');return;}spinning=true;
-  const wi=Math.floor(Math.random()*wheelPeople.length),n=wheelPeople.length,arc=(Math.PI*2)/n;
-  const tgt=-(wi*arc+arc/2)+Math.PI/2,norm=((tgt%(Math.PI*2))+Math.PI*2)%(Math.PI*2),tot=(Math.PI*2)*6+norm;
-  const dur=3200,st=performance.now(),s0=wheelOffset;
-  function fr(now){const t=Math.min((now-st)/dur,1),e=1-Math.pow(1-t,4);drawWheel(s0+e*tot);if(t<1){requestAnimationFrame(fr);return;}wheelOffset=(s0+tot)%(Math.PI*2);const w=wheelPeople[wi];spinResults.push(w);wheelPeople.splice(wi,1);spinning=false;drawWheel(wheelOffset);renderResults();document.getElementById('wheelStatus').textContent=wheelPeople.length?`剩餘 ${wheelPeople.length} 人`:'🎉 所有人員已抽完！';}
-  requestAnimationFrame(fr);
+function onRankDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+function onRankDrop(e, i) {
+  e.preventDefault();
+  document.querySelectorAll('.rank-slot').forEach(s => s.classList.remove('drag-over'));
+  if (dragType === 'member' && dragSource) {
+    if (ranking.includes(dragSource)) { alert('此成員已在排名中！'); return; }
+    ranking[i] = dragSource;
+    save(); renderRanking();
+  } else if (dragType === 'rank') {
+    const from = parseInt(dragSource);
+    if (from === i) return;
+    [ranking[from], ranking[i]] = [ranking[i], ranking[from]];
+    save(); renderRanking();
+  }
 }
-function renderResults(){const el=document.getElementById('spinResult');if(!spinResults.length){el.innerHTML='<div class="empty-hint">尚無抽籤結果</div>';return;}el.innerHTML=spinResults.map((n,i)=>`<div class="result-item"><span class="result-num">第 ${i+1} 次</span><span class="result-name">${n}</span></div>`).join('');el.scrollTop=el.scrollHeight;}
 
-window.addEventListener('beforeunload',e=>{if(isDirty){e.preventDefault();e.returnValue='';}});
-document.getElementById('memberInput').addEventListener('keydown',e=>{if(e.key==='Enter')addMember();});
+document.getElementById('rankList').addEventListener('dragstart', e => {
+  const slot = e.target.closest('.rank-slot.filled');
+  if (slot) { dragSource = slot.dataset.index; dragType = 'rank'; }
+});
 
-// ── 啟動 ──
-loadGhSettings();
-if(GH.owner&&GH.repo){loadConfig();}
-else{setStatus('err','請填寫上方的 GitHub 設定');renderMembers();renderRanking();drawWheel(0);}
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+
+function drawWheel(offset) {
+  offset = offset || 0;
+  ctx.clearRect(0, 0, 280, 280);
+  const cx = 140, cy = 140, r = 130;
+  if (!wheelPeople.length) {
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#1a1a23'; ctx.fill();
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#5a5a70'; ctx.font = '14px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('輪盤未設定', cx, cy); return;
+  }
+  const n = wheelPeople.length;
+  const arc = (Math.PI * 2) / n;
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(offset); ctx.translate(-cx, -cy);
+  wheelPeople.forEach((p, i) => {
+    const s = i * arc - Math.PI / 2;
+    const drawn = drawnSet.has(p);
+    // 扇形填色：已抽到的反灰
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, s, s + arc); ctx.closePath();
+    ctx.fillStyle = drawn ? '#2e2e38' : COLORS[i % COLORS.length];
+    ctx.fill();
+    ctx.strokeStyle = '#0f0f13'; ctx.lineWidth = 1.5; ctx.stroke();
+    // 文字
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(s + arc / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = drawn ? 'rgba(120,120,130,0.7)' : 'rgba(0,0,0,0.85)';
+    const fs = n > 14 ? 9 : n > 9 ? 11 : 13;
+    ctx.font = `600 ${fs}px sans-serif`;
+    let label = p;
+    if (ctx.measureText(label).width > 85) label = label.slice(0, n > 12 ? 4 : 6) + '…';
+    ctx.fillText(label, r - 8, 0);
+    // 已抽到的加刪除線效果（短橫線）
+    if (drawn) {
+      const tw = Math.min(ctx.measureText(label).width, 80);
+      ctx.strokeStyle = 'rgba(120,120,130,0.5)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(r - 8 - tw, -1); ctx.lineTo(r - 8, -1); ctx.stroke();
+    }
+    ctx.restore();
+  });
+  ctx.restore();
+  // 中心圓（無箭頭，箭頭已改為 HTML 元素放在 12 點鐘）
+  ctx.beginPath(); ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+  ctx.fillStyle = '#0f0f13'; ctx.fill();
+  ctx.strokeStyle = '#555'; ctx.lineWidth = 1.5; ctx.stroke();
+}
+
+function resetWheel() {
+  wheelPeople = ranking.filter(n => n !== null);
+  drawnSet = new Set();
+  spinResults = [];
+  wheelOffset = 0;
+  document.getElementById('spinResult').innerHTML = '<div class="empty-hint">尚無抽籤結果</div>';
+  document.getElementById('wheelStatus').textContent = wheelPeople.length ? `輪盤已設定 ${wheelPeople.length} 人` : '排名清單無成員';
+  drawWheel(0);
+}
+
+function spin() {
+  if (spinning) return;
+  if (!wheelPeople.length) { alert('請先按「新的抽籤」設定輪盤！'); return; }
+  const available = wheelPeople.filter(p => !drawnSet.has(p));
+  if (!available.length) { alert('所有人員都已抽完！請按「新的抽籤」重新開始。'); return; }
+  spinning = true;
+
+  const winner = available[Math.floor(Math.random() * available.length)];
+  const winIdx = wheelPeople.indexOf(winner);
+
+  const n = wheelPeople.length;
+  const arcSize = (Math.PI * 2) / n;
+
+  // 每個扇形 i 的起始角 = i*arcSize - PI/2（12點鐘為 -PI/2）
+  // 扇形中心角（未加 offset）= winIdx*arcSize - PI/2 + arcSize/2
+  // 要讓 offset 後的扇形中心對準 12 點鐘（-PI/2）：
+  //   offset + winIdx*arcSize - PI/2 + arcSize/2 ≡ -PI/2  (mod 2PI)
+  //   => offset ≡ -(winIdx*arcSize + arcSize/2)  (mod 2PI)
+  const startOffset = wheelOffset;
+  const targetOffset = ((-(winIdx * arcSize + arcSize / 2)) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+  const diff = (targetOffset - (startOffset % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  const totalRot = Math.PI * 2 * 6 + (diff === 0 ? Math.PI * 2 : diff);
+
+  const dur = 3200;
+  const startTime = performance.now();
+
+  function frame(now) {
+    const t = Math.min((now - startTime) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 4);
+    drawWheel(startOffset + ease * totalRot);
+    if (t < 1) { requestAnimationFrame(frame); return; }
+    wheelOffset = (startOffset + totalRot) % (Math.PI * 2);
+    drawnSet.add(winner);
+    spinResults.push(winner);
+    spinning = false;
+    drawWheel(wheelOffset);
+    renderResults();
+    const remaining = wheelPeople.length - drawnSet.size;
+    document.getElementById('wheelStatus').textContent =
+      remaining > 0 ? `剩餘 ${remaining} 人未抽` : '🎉 所有人員已抽完！';
+  }
+  requestAnimationFrame(frame);
+}
+
+function renderResults() {
+  const el = document.getElementById('spinResult');
+  if (!spinResults.length) { el.innerHTML = '<div class="empty-hint">尚無抽籤結果</div>'; return; }
+  el.innerHTML = spinResults.map((n, i) =>
+    `<div class="result-item">
+      <span class="result-num">第 ${i + 1} 次</span>
+      <span class="result-name">${n}</span>
+    </div>`).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+document.getElementById('memberInput').addEventListener('keydown', e => { if (e.key === 'Enter') addMember(); });
+
+load(); renderMembers(); renderRanking(); drawWheel(0);
 </script>
 </body>
 </html>
