@@ -1,4 +1,28 @@
 {
-  "members": [],
-  "ranking": [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
+  "members": [
+    "1",
+    "2"
+  ],
+  "ranking": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ]
 }
