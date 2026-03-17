@@ -16,44 +16,31 @@
   }
   body { background:var(--bg); color:var(--text); font-family:'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif; font-size:14px; line-height:1.5; min-height:100vh; padding:20px 16px 40px; }
   h1 { text-align:center; font-size:22px; font-weight:600; letter-spacing:0.05em; color:var(--accent2); margin-bottom:6px; }
+  code { background:rgba(255,255,255,0.08); padding:1px 5px; border-radius:4px; font-size:12px; }
 
   .status-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; padding:8px 0 16px; font-size:12px; color:var(--text3); border-bottom:1px solid var(--border); margin-bottom:18px; }
   .status-dot { width:7px; height:7px; border-radius:50%; background:var(--text3); flex-shrink:0; transition:background 0.3s; }
-  .status-dot.ok  { background:var(--green); }
+  .status-dot.ok { background:var(--green); }
   .status-dot.err { background:var(--red); }
   .status-dot.loading { background:var(--yellow); animation:blink 0.8s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* ── GitHub 設定橫幅 ── */
-  #ghBanner {
-    max-width:1100px; margin:0 auto 16px;
-    background:rgba(124,111,247,0.07);
-    border:1px solid rgba(124,111,247,0.25);
-    border-radius:var(--radius-lg); padding:16px;
-  }
+  #ghBanner { max-width:1100px; margin:0 auto 16px; background:rgba(124,111,247,0.07); border:1px solid rgba(124,111,247,0.25); border-radius:var(--radius-lg); padding:16px; }
   #ghBanner .bTitle { font-size:13px; font-weight:600; color:var(--accent2); margin-bottom:10px; }
-  #ghBanner .bDesc  { font-size:12px; color:var(--text3); margin-bottom:12px; line-height:1.7; }
-  #ghBanner .bDesc a { color:var(--accent2); }
-  .gh-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+  #ghBanner .bDesc { font-size:12px; color:var(--text2); margin-bottom:14px; line-height:1.9; }
+  #ghBanner .bDesc .tag-admin { color:var(--green); font-weight:600; }
+  #ghBanner .bDesc .tag-all   { color:var(--accent2); font-weight:600; }
+  .gh-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
   @media(max-width:560px){ .gh-grid { grid-template-columns:1fr; } }
   .gh-field label { display:block; font-size:11px; color:var(--text3); margin-bottom:4px; }
-  .gh-field input {
-    width:100%; background:var(--surface2); border:1px solid var(--border);
-    border-radius:var(--radius); padding:7px 12px; font-size:13px;
-    color:var(--text); outline:none; transition:border-color 0.2s;
-  }
+  .gh-field input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:7px 12px; font-size:13px; color:var(--text); outline:none; transition:border-color 0.2s; font-family:monospace; }
   .gh-field input:focus { border-color:var(--accent); }
   .gh-field input::placeholder { color:var(--text3); }
+  .full-col { grid-column: 1 / -1; }
   .bRow { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   .bToggle { font-size:12px; color:var(--text3); cursor:pointer; text-decoration:underline; }
 
-  /* ── 儲存列 ── */
-  #saveBar {
-    display:none; max-width:1100px; margin:0 auto 14px;
-    background:rgba(250,204,21,0.07); border:1px solid rgba(250,204,21,0.25);
-    border-radius:var(--radius-lg); padding:10px 16px;
-    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
-  }
+  #saveBar { display:none; max-width:1100px; margin:0 auto 14px; background:rgba(250,204,21,0.07); border:1px solid rgba(250,204,21,0.25); border-radius:var(--radius-lg); padding:10px 16px; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
   #saveBar span { font-size:13px; color:var(--yellow); flex:1; }
 
   .top-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:1100px; margin:0 auto 16px; }
@@ -110,7 +97,6 @@
   .result-item:last-child { border-bottom:none; }
   .result-num { font-size:11px; color:var(--text3); min-width:28px; }
   .result-name { font-weight:600; color:var(--green); }
-
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
@@ -124,13 +110,13 @@
   <span id="statusMsg">初始化中...</span>
 </div>
 
-<!-- GitHub 設定橫幅 -->
 <div id="ghBanner">
-  <div class="bTitle">GitHub 設定（僅管理員需要填寫，一次設定永久生效）</div>
+  <div class="bTitle">GitHub 設定（一次設定，永久生效）</div>
   <div class="bDesc">
-    填入後按「儲存設定」，之後所有人按「儲存同盟設定」就會直接更新 repo 裡的 config.json。<br>
-    Token 產生方式：GitHub → Settings → Developer settings → Personal access tokens (classic) → 勾選 <code>repo</code> 權限。<br>
-    Token 只存在你自己的瀏覽器，不會外洩。一般成員不需填寫，只能讀取。
+    <span class="tag-all">所有人都需填寫</span>：帳號、Repo 名稱、唯讀 Token（讓 API 讀取不受快取限制）。<br>
+    <span class="tag-admin">管理員另外填寫</span>：管理員 Token（有 <code>repo</code> 權限）才能按「儲存同盟設定」。<br>
+    兩種 Token 產生方式：GitHub → Settings → Developer settings → Personal access tokens → <strong>Tokens (classic)</strong>。<br>
+    唯讀 Token 不需勾選任何權限；管理員 Token 勾選 <code>repo</code>。Token 只存在你自己的瀏覽器，不會外洩。
   </div>
   <div class="gh-grid">
     <div class="gh-field">
@@ -142,21 +128,24 @@
       <input id="ghRepo" type="text" placeholder="alliance-lottery" />
     </div>
     <div class="gh-field">
-      <label>config.json 路徑（預設直接放根目錄）</label>
+      <label>config.json 路徑（放根目錄不用改）</label>
       <input id="ghPath" type="text" placeholder="config.json" />
     </div>
     <div class="gh-field">
-      <label>Personal Access Token（管理員才需填）</label>
+      <label><span class="tag-all">唯讀 Token</span>（所有人填，不需勾任何權限）</label>
+      <input id="ghReadToken" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
+    </div>
+    <div class="gh-field full-col">
+      <label><span class="tag-admin">管理員 Token</span>（選填，填了才能儲存設定，需勾 repo 權限）</label>
       <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
     </div>
   </div>
   <div class="bRow">
     <button class="btn btn-ghost" onclick="saveGhSettings()">儲存 GitHub 設定</button>
-    <span class="bToggle" onclick="toggleBanner()">收合設定</span>
+    <span class="bToggle" onclick="toggleBanner()">收合</span>
   </div>
 </div>
 
-<!-- 有未儲存變更時顯示 -->
 <div id="saveBar">
   <span id="saveBarMsg">有未儲存的變更</span>
   <button class="btn btn-save" id="saveBtn" onclick="saveConfig()">儲存同盟設定</button>
@@ -196,69 +185,62 @@
 </div>
 
 <script>
-// ══════════════════════════════════════════
-//  GitHub 設定
-// ══════════════════════════════════════════
-let GH = { owner:'', repo:'', path:'config.json', token:'' };
-let configSha = '';   // GitHub API 需要 SHA 才能更新檔案
-let members = [];
-let ranking = new Array(20).fill(null);
+let GH = { owner:'', repo:'', path:'config.json', readToken:'', token:'' };
+let configSha = '';
+let members = [], ranking = new Array(20).fill(null);
 let wheelPeople = [], spinResults = [], spinning = false;
-let dragSource = null, dragType = null, wheelOffset = 0;
-let isDirty = false;
+let dragSource = null, dragType = null, wheelOffset = 0, isDirty = false;
 
 const COLORS = ['#7c6ff7','#34d399','#f97316','#ec4899','#38bdf8','#a3e635','#facc15','#fb7185','#818cf8','#2dd4bf','#c084fc','#fb923c','#4ade80','#60a5fa','#e879f9','#fbbf24','#f472b6','#34d399','#a78bfa','#94a3b8'];
 
-// ── GitHub 設定讀寫 ──
+// ── GitHub 設定 ──
 function loadGhSettings() {
   try {
     const s = JSON.parse(localStorage.getItem('gh_settings') || '{}');
-    GH.owner = s.owner || '';
-    GH.repo  = s.repo  || '';
-    GH.path  = s.path  || 'config.json';
-    GH.token = s.token || '';
-    document.getElementById('ghOwner').value = GH.owner;
-    document.getElementById('ghRepo').value  = GH.repo;
-    document.getElementById('ghPath').value  = GH.path  || 'config.json';
-    document.getElementById('ghToken').value = GH.token;
+    GH.owner     = s.owner     || '';
+    GH.repo      = s.repo      || '';
+    GH.path      = s.path      || 'config.json';
+    GH.readToken = s.readToken || '';
+    GH.token     = s.token     || '';
+    document.getElementById('ghOwner').value     = GH.owner;
+    document.getElementById('ghRepo').value      = GH.repo;
+    document.getElementById('ghPath').value      = GH.path;
+    document.getElementById('ghReadToken').value = GH.readToken;
+    document.getElementById('ghToken').value     = GH.token;
     if (GH.owner && GH.repo) toggleBanner(true);
   } catch(e) {}
 }
 function saveGhSettings() {
-  GH.owner = document.getElementById('ghOwner').value.trim();
-  GH.repo  = document.getElementById('ghRepo').value.trim();
-  GH.path  = document.getElementById('ghPath').value.trim() || 'config.json';
-  GH.token = document.getElementById('ghToken').value.trim();
+  GH.owner     = document.getElementById('ghOwner').value.trim();
+  GH.repo      = document.getElementById('ghRepo').value.trim();
+  GH.path      = document.getElementById('ghPath').value.trim() || 'config.json';
+  GH.readToken = document.getElementById('ghReadToken').value.trim();
+  GH.token     = document.getElementById('ghToken').value.trim();
   localStorage.setItem('gh_settings', JSON.stringify(GH));
-  setStatus('loading', '設定已儲存，重新載入 config.json...');
   toggleBanner(true);
   loadConfig();
 }
 function toggleBanner(forceHide) {
   const el = document.getElementById('ghBanner');
+  const grid = el.querySelector('.gh-grid');
+  const desc = el.querySelector('.bDesc');
+  const row  = el.querySelector('.bRow');
+  const title = el.querySelector('.bTitle');
   if (forceHide === true) {
-    el.querySelector('.gh-grid').style.display = 'none';
-    el.querySelector('.bDesc').style.display = 'none';
-    el.querySelector('.bTitle').textContent = 'GitHub 設定（點此展開）';
-    el.querySelector('.bTitle').style.cursor = 'pointer';
-    el.querySelector('.bTitle').onclick = () => toggleBanner(false);
-    el.querySelector('.bRow').style.display = 'none';
+    grid.style.display = 'none'; desc.style.display = 'none'; row.style.display = 'none';
+    title.textContent = 'GitHub 設定（點此展開修改）';
+    title.style.cursor = 'pointer';
+    title.onclick = () => toggleBanner(false);
   } else if (forceHide === false) {
-    el.querySelector('.gh-grid').style.display = '';
-    el.querySelector('.bDesc').style.display = '';
-    el.querySelector('.bTitle').textContent = 'GitHub 設定（管理員填寫）';
-    el.querySelector('.bTitle').onclick = null;
-    el.querySelector('.bTitle').style.cursor = 'default';
-    el.querySelector('.bRow').style.display = '';
+    grid.style.display = ''; desc.style.display = ''; row.style.display = '';
+    title.textContent = 'GitHub 設定（一次設定，永久生效）';
+    title.style.cursor = 'default'; title.onclick = null;
   } else {
-    const hidden = el.querySelector('.gh-grid').style.display === 'none';
-    toggleBanner(!hidden);
+    toggleBanner(grid.style.display === 'none' ? false : true);
   }
 }
 
-// ══════════════════════════════════════════
-//  狀態列
-// ══════════════════════════════════════════
+// ── 狀態列 ──
 function setStatus(state, msg) {
   document.getElementById('statusDot').className = 'status-dot ' + state;
   document.getElementById('statusMsg').textContent = msg;
@@ -270,37 +252,37 @@ function markDirty() {
   document.getElementById('saveBtn').disabled = !hasToken;
   document.getElementById('saveBarMsg').textContent = hasToken
     ? '有未儲存的變更'
-    : '有未儲存的變更（需要管理員 Token 才能儲存至 GitHub）';
+    : '有未儲存的變更（需要管理員 Token 才能儲存）';
 }
 function markClean() {
   isDirty = false;
   document.getElementById('saveBar').style.display = 'none';
 }
 
-// ══════════════════════════════════════════
-//  讀取 config.json（從 GitHub raw）
-// ══════════════════════════════════════════
+// ── 讀取 config.json（GitHub API，確保拿到最新版）──
 async function loadConfig() {
-  if (!GH.owner || !GH.repo) {
-    setStatus('err', '請先填寫 GitHub 設定');
-    return;
-  }
-  setStatus('loading', '從 GitHub 載入 config.json...');
+  if (!GH.owner || !GH.repo) { setStatus('err', '請先填寫 GitHub 設定'); return; }
+  setStatus('loading', '從 GitHub 載入設定中...');
   try {
-    // 用 API 讀取可拿到 SHA（更新時需要）
     const apiUrl = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
-    const headers = { 'Accept': 'application/vnd.github.v3+json' };
-    if (GH.token) headers['Authorization'] = 'token ' + GH.token;
+    // 優先用 readToken，沒有才用 adminToken，都沒有才匿名（容易被快取）
+    const token = GH.readToken || GH.token;
+    const headers = {
+      'Accept': 'application/vnd.github.v3+json',
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache'
+    };
+    if (token) headers['Authorization'] = 'token ' + token;
 
-    const res = await fetch(apiUrl, { headers });
-    if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 404 ? '（找不到檔案，請確認路徑）' : ''));
+    const res = await fetch(apiUrl, { headers, cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 404 ? '（找不到檔案）' : res.status === 401 ? '（Token 無效）' : ''));
     const json = await res.json();
     configSha = json.sha;
-    const content = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    const content = JSON.parse(atob(json.content.replace(/\n/g, '')));
     members = content.members || [];
     ranking = content.ranking || new Array(20).fill(null);
     while (ranking.length < 20) ranking.push(null);
-    setStatus('ok', '已載入 · ' + new Date().toLocaleTimeString('zh-TW'));
+    setStatus('ok', '已載入最新設定 · ' + new Date().toLocaleTimeString('zh-TW'));
     markClean();
   } catch(e) {
     setStatus('err', '載入失敗：' + e.message);
@@ -308,40 +290,21 @@ async function loadConfig() {
   renderMembers(); renderRanking(); drawWheel(0);
 }
 
-// ══════════════════════════════════════════
-//  儲存 config.json（寫回 GitHub）
-// ══════════════════════════════════════════
+// ── 儲存 config.json（寫回 GitHub）──
 async function saveConfig() {
-  if (!GH.token) { alert('需要 Personal Access Token 才能儲存，請展開 GitHub 設定填寫。'); return; }
-  if (!GH.owner || !GH.repo) { alert('請先完成 GitHub 設定。'); return; }
-
+  if (!GH.token) { alert('需要管理員 Token，請展開 GitHub 設定填寫。'); return; }
   const btn = document.getElementById('saveBtn');
-  btn.disabled = true;
-  btn.textContent = '儲存中...';
+  btn.disabled = true; btn.textContent = '儲存中...';
   setStatus('loading', '正在寫入 GitHub...');
-
   try {
     const payload = JSON.stringify({ members, ranking }, null, 2);
     const encoded = btoa(unescape(encodeURIComponent(payload)));
-    const apiUrl = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
-    const body = {
-      message: '更新同盟設定 ' + new Date().toLocaleString('zh-TW'),
-      content: encoded,
-      sha: configSha
-    };
-    const res = await fetch(apiUrl, {
+    const res = await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`, {
       method: 'PUT',
-      headers: {
-        'Authorization': 'token ' + GH.token,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
-      },
-      body: JSON.stringify(body)
+      headers: { 'Authorization': 'token ' + GH.token, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+      body: JSON.stringify({ message: '更新同盟設定 ' + new Date().toLocaleString('zh-TW'), content: encoded, sha: configSha })
     });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || 'HTTP ' + res.status);
-    }
+    if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'HTTP ' + res.status); }
     const result = await res.json();
     configSha = result.content.sha;
     setStatus('ok', '已儲存至 GitHub · ' + new Date().toLocaleTimeString('zh-TW'));
@@ -350,20 +313,15 @@ async function saveConfig() {
     setStatus('err', '儲存失敗：' + e.message);
     btn.disabled = false;
   }
-  btn.textContent = '儲存同盟設定';
-  btn.disabled = false;
+  btn.textContent = '儲存同盟設定'; btn.disabled = false;
 }
 
-// ══════════════════════════════════════════
-//  成員 & 排名
-// ══════════════════════════════════════════
+// ── 成員清單 ──
 function addMember() {
-  const inp = document.getElementById('memberInput');
-  const name = inp.value.trim();
+  const inp = document.getElementById('memberInput'), name = inp.value.trim();
   if (!name) return;
   if (members.includes(name)) { alert('成員已存在！'); return; }
-  members.push(name); inp.value = '';
-  renderMembers(); markDirty();
+  members.push(name); inp.value = ''; renderMembers(); markDirty();
 }
 function removeMember(name) {
   members = members.filter(m => m !== name);
@@ -380,13 +338,13 @@ function renderMembers() {
       <button class="btn btn-danger" onclick="removeMember('${m}')">移除</button>
     </div>`).join('');
 }
+
+// ── 排名清單 ──
 function renderRanking() {
   const el = document.getElementById('rankList');
   el.innerHTML = ranking.map((name, i) => `
     <div class="rank-slot${name?' filled':''}" data-index="${i}"
-      ondragover="onRankDragOver(event,${i})"
-      ondragleave="onRankDragLeave(event)"
-      ondrop="onRankDrop(event,${i})">
+      ondragover="onRankDragOver(event,${i})" ondragleave="onRankDragLeave(event)" ondrop="onRankDrop(event,${i})">
       <span class="rank-num">${i+1}</span>
       ${name
         ? `<span class="rank-name">${name}</span>
@@ -399,127 +357,51 @@ function renderRanking() {
     </div>`).join('');
 }
 function moveRank(i, dir) {
-  const j = i + dir; if (j < 0 || j > 19) return;
-  [ranking[i], ranking[j]] = [ranking[j], ranking[i]];
-  renderRanking(); markDirty();
+  const j = i+dir; if(j<0||j>19) return;
+  [ranking[i],ranking[j]]=[ranking[j],ranking[i]]; renderRanking(); markDirty();
 }
-function removeRank(i) { ranking[i] = null; renderRanking(); markDirty(); }
+function removeRank(i) { ranking[i]=null; renderRanking(); markDirty(); }
 
-function onMemberDragStart(e, name) { dragSource=name; dragType='member'; e.dataTransfer.effectAllowed='copy'; e.target.classList.add('dragging'); }
-function onDragEnd(e) { e.target.classList.remove('dragging'); }
-function onRankDragOver(e, i) {
-  e.preventDefault();
-  document.querySelectorAll('.rank-slot').forEach(s=>s.classList.remove('drag-over'));
-  document.querySelector(`.rank-slot[data-index="${i}"]`)?.classList.add('drag-over');
+// ── 拖曳 ──
+function onMemberDragStart(e,name){dragSource=name;dragType='member';e.dataTransfer.effectAllowed='copy';e.target.classList.add('dragging');}
+function onDragEnd(e){e.target.classList.remove('dragging');}
+function onRankDragOver(e,i){e.preventDefault();document.querySelectorAll('.rank-slot').forEach(s=>s.classList.remove('drag-over'));document.querySelector(`.rank-slot[data-index="${i}"]`)?.classList.add('drag-over');}
+function onRankDragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function onRankDrop(e,i){
+  e.preventDefault();document.querySelectorAll('.rank-slot').forEach(s=>s.classList.remove('drag-over'));
+  if(dragType==='member'&&dragSource){if(ranking.includes(dragSource)){alert('此成員已在排名中！');return;}ranking[i]=dragSource;renderRanking();markDirty();}
+  else if(dragType==='rank'){const f=parseInt(dragSource);if(f===i)return;[ranking[f],ranking[i]]=[ranking[i],ranking[f]];renderRanking();markDirty();}
 }
-function onRankDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-function onRankDrop(e, i) {
-  e.preventDefault();
-  document.querySelectorAll('.rank-slot').forEach(s=>s.classList.remove('drag-over'));
-  if (dragType==='member' && dragSource) {
-    if (ranking.includes(dragSource)) { alert('此成員已在排名中！'); return; }
-    ranking[i] = dragSource; renderRanking(); markDirty();
-  } else if (dragType==='rank') {
-    const from = parseInt(dragSource); if (from===i) return;
-    [ranking[from], ranking[i]] = [ranking[i], ranking[from]];
-    renderRanking(); markDirty();
-  }
-}
-document.getElementById('rankList').addEventListener('dragstart', e => {
-  const slot = e.target.closest('.rank-slot.filled');
-  if (slot) { dragSource=slot.dataset.index; dragType='rank'; }
-});
+document.getElementById('rankList').addEventListener('dragstart',e=>{const s=e.target.closest('.rank-slot.filled');if(s){dragSource=s.dataset.index;dragType='rank';}});
 
-// ══════════════════════════════════════════
-//  輪盤
-// ══════════════════════════════════════════
-const canvas = document.getElementById('wheel');
-const ctx = canvas.getContext('2d');
-function drawWheel(offset) {
-  offset = offset||0; ctx.clearRect(0,0,280,280);
-  const cx=140,cy=140,r=130;
-  if (!wheelPeople.length) {
-    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
-    ctx.fillStyle='#1a1a23'; ctx.fill();
-    ctx.strokeStyle='#333'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.fillStyle='#5a5a70'; ctx.font='14px sans-serif';
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('輪盤未設定',cx,cy); return;
-  }
-  const n=wheelPeople.length, arc=(Math.PI*2)/n;
-  ctx.save(); ctx.translate(cx,cy); ctx.rotate(offset); ctx.translate(-cx,-cy);
-  wheelPeople.forEach((p,i) => {
-    const s=i*arc-Math.PI/2;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,s,s+arc); ctx.closePath();
-    ctx.fillStyle=COLORS[i%COLORS.length]; ctx.fill();
-    ctx.strokeStyle='#0f0f13'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.save(); ctx.translate(cx,cy); ctx.rotate(s+arc/2);
-    ctx.textAlign='right'; ctx.fillStyle='rgba(0,0,0,0.85)';
-    const fs=n>14?9:n>9?11:13;
-    ctx.font=`600 ${fs}px sans-serif`;
-    let label=p; if(ctx.measureText(label).width>85) label=label.slice(0,n>12?4:6)+'…';
-    ctx.fillText(label,r-8,0); ctx.restore();
-  });
-  ctx.restore();
-  ctx.beginPath(); ctx.arc(cx,cy,16,0,Math.PI*2);
-  ctx.fillStyle='#0f0f13'; ctx.fill();
-  ctx.strokeStyle='#444'; ctx.lineWidth=1.5; ctx.stroke();
-  ctx.fillStyle='#f87171'; ctx.font='bold 16px sans-serif';
-  ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('▶',148,140);
+// ── 輪盤 ──
+const canvas=document.getElementById('wheel'),ctx=canvas.getContext('2d');
+function drawWheel(offset){
+  offset=offset||0;ctx.clearRect(0,0,280,280);const cx=140,cy=140,r=130;
+  if(!wheelPeople.length){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#1a1a23';ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#5a5a70';ctx.font='14px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('輪盤未設定',cx,cy);return;}
+  const n=wheelPeople.length,arc=(Math.PI*2)/n;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(offset);ctx.translate(-cx,-cy);
+  wheelPeople.forEach((p,i)=>{const s=i*arc-Math.PI/2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,s+arc);ctx.closePath();ctx.fillStyle=COLORS[i%COLORS.length];ctx.fill();ctx.strokeStyle='#0f0f13';ctx.lineWidth=1.5;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(s+arc/2);ctx.textAlign='right';ctx.fillStyle='rgba(0,0,0,0.85)';const fs=n>14?9:n>9?11:13;ctx.font=`600 ${fs}px sans-serif`;let label=p;if(ctx.measureText(label).width>85)label=label.slice(0,n>12?4:6)+'…';ctx.fillText(label,r-8,0);ctx.restore();});
+  ctx.restore();ctx.beginPath();ctx.arc(cx,cy,16,0,Math.PI*2);ctx.fillStyle='#0f0f13';ctx.fill();ctx.strokeStyle='#444';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#f87171';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('▶',148,140);
 }
-function resetWheel() {
-  wheelPeople = ranking.filter(n=>n!==null);
-  spinResults = []; wheelOffset = 0;
-  document.getElementById('spinResult').innerHTML='<div class="empty-hint">尚無抽籤結果</div>';
-  document.getElementById('wheelStatus').textContent = wheelPeople.length ? `輪盤已設定 ${wheelPeople.length} 人` : '排名清單無成員';
-  drawWheel(0);
+function resetWheel(){wheelPeople=ranking.filter(n=>n!==null);spinResults=[];wheelOffset=0;document.getElementById('spinResult').innerHTML='<div class="empty-hint">尚無抽籤結果</div>';document.getElementById('wheelStatus').textContent=wheelPeople.length?`輪盤已設定 ${wheelPeople.length} 人`:'排名清單無成員';drawWheel(0);}
+function spin(){
+  if(spinning)return;if(!wheelPeople.length){alert('請先重新設定輪盤！');return;}spinning=true;
+  const wi=Math.floor(Math.random()*wheelPeople.length),n=wheelPeople.length,arc=(Math.PI*2)/n;
+  const tgt=-(wi*arc+arc/2)+Math.PI/2,norm=((tgt%(Math.PI*2))+Math.PI*2)%(Math.PI*2),tot=(Math.PI*2)*6+norm;
+  const dur=3200,st=performance.now(),s0=wheelOffset;
+  function fr(now){const t=Math.min((now-st)/dur,1),e=1-Math.pow(1-t,4);drawWheel(s0+e*tot);if(t<1){requestAnimationFrame(fr);return;}wheelOffset=(s0+tot)%(Math.PI*2);const w=wheelPeople[wi];spinResults.push(w);wheelPeople.splice(wi,1);spinning=false;drawWheel(wheelOffset);renderResults();document.getElementById('wheelStatus').textContent=wheelPeople.length?`剩餘 ${wheelPeople.length} 人`:'🎉 所有人員已抽完！';}
+  requestAnimationFrame(fr);
 }
-function spin() {
-  if (spinning) return;
-  if (!wheelPeople.length) { alert('請先重新設定輪盤！'); return; }
-  spinning = true;
-  const winIdx=Math.floor(Math.random()*wheelPeople.length), n=wheelPeople.length;
-  const arc=(Math.PI*2)/n;
-  const tgt=-(winIdx*arc+arc/2)+Math.PI/2;
-  const norm=((tgt%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
-  const totalRot=(Math.PI*2)*6+norm;
-  const dur=3200, startTime=performance.now(), s0=wheelOffset;
-  function frame(now) {
-    const t=Math.min((now-startTime)/dur,1), e=1-Math.pow(1-t,4);
-    drawWheel(s0+e*totalRot);
-    if (t<1) { requestAnimationFrame(frame); return; }
-    wheelOffset=(s0+totalRot)%(Math.PI*2);
-    const winner=wheelPeople[winIdx];
-    spinResults.push(winner); wheelPeople.splice(winIdx,1);
-    spinning=false; drawWheel(wheelOffset); renderResults();
-    document.getElementById('wheelStatus').textContent =
-      wheelPeople.length ? `剩餘 ${wheelPeople.length} 人` : '🎉 所有人員已抽完！';
-  }
-  requestAnimationFrame(frame);
-}
-function renderResults() {
-  const el=document.getElementById('spinResult');
-  if (!spinResults.length) { el.innerHTML='<div class="empty-hint">尚無抽籤結果</div>'; return; }
-  el.innerHTML=spinResults.map((n,i)=>`
-    <div class="result-item">
-      <span class="result-num">第 ${i+1} 次</span>
-      <span class="result-name">${n}</span>
-    </div>`).join('');
-  el.scrollTop=el.scrollHeight;
-}
+function renderResults(){const el=document.getElementById('spinResult');if(!spinResults.length){el.innerHTML='<div class="empty-hint">尚無抽籤結果</div>';return;}el.innerHTML=spinResults.map((n,i)=>`<div class="result-item"><span class="result-num">第 ${i+1} 次</span><span class="result-name">${n}</span></div>`).join('');el.scrollTop=el.scrollHeight;}
 
-window.addEventListener('beforeunload', e => { if(isDirty){e.preventDefault();e.returnValue='';} });
-document.getElementById('memberInput').addEventListener('keydown', e => { if(e.key==='Enter') addMember(); });
+window.addEventListener('beforeunload',e=>{if(isDirty){e.preventDefault();e.returnValue='';}});
+document.getElementById('memberInput').addEventListener('keydown',e=>{if(e.key==='Enter')addMember();});
 
 // ── 啟動 ──
 loadGhSettings();
-if (GH.owner && GH.repo) {
-  loadConfig();
-} else {
-  setStatus('err', '請填寫上方的 GitHub 設定');
-  renderMembers(); renderRanking(); drawWheel(0);
-}
+if(GH.owner&&GH.repo){loadConfig();}
+else{setStatus('err','請填寫上方的 GitHub 設定');renderMembers();renderRanking();drawWheel(0);}
 </script>
 </body>
 </html>
